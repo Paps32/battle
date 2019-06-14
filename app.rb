@@ -1,5 +1,6 @@
 require 'sinatra/base'
-require 'player'
+require './lib/player'
+require './lib/game'
 
 class Battle < Sinatra::Base
 
@@ -15,15 +16,14 @@ redirect '/play'
 end
 
 get '/play' do
-  @player_1 = $game.player_1
-  @player_2 = $game.player_2
+  @game = $game
   erb :play
 end
 
 get '/attack' do
-  @player_1 = $game.player_1
-  @player_2 = $game.player_2
-  $game.attack(@player_2)
+  @game = $game
+  @game.attack(@game.player_2)
+  @game.switch_turns
   erb :attack
 end
 
